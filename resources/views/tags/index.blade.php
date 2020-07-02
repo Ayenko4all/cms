@@ -3,13 +3,13 @@
 
 @section('content')
   <div class="d-flex justify-content-end mb-2">
-  <a href="{{ route('categories.create') }}" class="btn btn-success">Add Category</a>
+  <a href="{{ route('tags.create') }}" class="btn btn-success">Add Tag</a>
   </div>
 
   <div class="card card-default">
-    <div class="card-header">Categories</div>
+    <div class="card-header">Tags</div>
     <div class="card-body">
-      @if($categories->count() > 0)
+      @if($tags->count() > 0)
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -18,24 +18,24 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($categories as $category)
+          @foreach($tags as $tag)
             <tr>
-              <td> {{ $category->name }} </td>
+              <td> {{ $tag->name }} </td>
               <td>
-                {{ $category->posts()->count() }}
+                {{ $tag->posts->count() }}
               </td>
               <td>
-                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info btn-sm">Edit</a>
-                <button class="btn btn-danger btn-sm" onclick="handleDelete({{$category->id}})" value="">Delete</button>
+                <a href="{{ route('tags.edit', $tag->id) }}" class="btn btn-info btn-sm">Edit</a>
+                <button class="btn btn-danger btn-sm" onclick="handleDelete({{$tag->id}})" value="">Delete</button>
               </td>
             </tr>
           @endforeach
         </tbody>
       </table>
       @else
-            <h3 class="text-center">No Categories Yet</h3>
+            <h3 class="text-center">No Tags Yet</h3>
           @endif
-      <form action="" method="post" id="deletecategoryform">
+      <form action="" method="post" id="deletetagform">
         @csrf
         @method('DELETE')
       <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -49,7 +49,7 @@
               </div>
               <div class="modal-body">
                 <p class="text-center text-bold">
-                  Are sure you want to delete this category?
+                  Are sure you want to delete this tag?
                 </p>
               </div>
               <div class="modal-footer">
@@ -69,8 +69,8 @@
 @section('scripts')
   <script>
     function handleDelete(id) {
-      var form = document.getElementById('deletecategoryform');
-      form.action = '/categories/' + id;
+      var form = document.getElementById('deletetagform');
+      form.action = '/tags/' + id;
       //console.log('deleting', form);
       $('#deleteModal').modal('show');
     }

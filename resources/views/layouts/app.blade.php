@@ -9,15 +9,18 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+    .btn-info{
+        color:#fff;
+    }
+    </style>
+    @yield('css')
 </head>
 <body>
     <div id="app">
@@ -80,11 +83,27 @@
                <div class="row">
                     <div class="col-md-4">
                         <ul class="list-group">
+                            @if(auth()->user()->isAdmin())
+                                <li class="list-group-item">
+                                    <a href="{{ route('users.index') }}">
+                                        Users
+                                    </a>
+                                </li>
+                            @endif
                             <li class="list-group-item">
                                 <a href="{{ route('posts.index') }}">Posts</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="{{ route('categories.index') }}">Categories</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="{{ route('tags.index') }}">Tags</a>
+                            </li>
+                        </ul>
+
+                        <ul class="list-group mt-4">
+                            <li class="list-group-item">
+                                <a href="{{ route('trashed-posts.index') }}">Trash Posts</a>
                             </li>
                         </ul>
                     </div>
@@ -92,6 +111,11 @@
                         @if(session()->has('success'))
                             <div class="alert alert-success">
                                 {{ session()->get('success') }}
+                            </div>
+                        @endif
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger">
+                                {{ session()->get('error') }}
                             </div>
                         @endif
                         @yield('content')
@@ -106,9 +130,10 @@
              @endauth
         </main>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  
+     
+     <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+
     @yield('scripts')   
 </body>
 </html>
